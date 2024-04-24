@@ -15,12 +15,12 @@ namespace Thirtwo.Boids.Movement
 
             Vector2 cohesionMove = Vector2.zero;
             int boidsInRange = 0;
-            foreach (Transform otherBoid in boidTransforms)
+            for (int i = 0; i < boidTransforms.Count; i++)
             {
-                float distance = Vector2.Distance(boid.transform.position, otherBoid.position);
+                float distance = Vector2.Distance(boid.transform.position, boidTransforms[i].position);
                 if (distance < simulationData.CohesionRadius)
                 {
-                    cohesionMove += (Vector2)otherBoid.position;
+                    cohesionMove += (Vector2)boidTransforms[i].position;
                     boidsInRange++;
                 }
             }

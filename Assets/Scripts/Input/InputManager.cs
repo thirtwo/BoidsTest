@@ -15,27 +15,30 @@ namespace Thirtwo
 
         private Camera _mainCam;
         private EventSystem _eventSystem;
+        private PointerEventData _pointerEventData;
+        private List<RaycastResult> _raycastResults = new List<RaycastResult>();
         private void Awake()
         {
             _mainCam = Camera.main;
             _eventSystem = EventSystem.current;
+            _pointerEventData = new PointerEventData(EventSystem.current);
         }
         private void Update()
         {
-            if (_eventSystem.IsPointerOverGameObject()) return;
 #if UNITY_EDITOR
-            if (IsPointerOverUIObject(Input.mousePosition)) return;
-
             if (Input.GetMouseButtonDown(0))
             {
+                if (IsPointerOverUIObject(Input.mousePosition)) return;
                 OnTouchStarted?.Invoke();
             }
             if (Input.GetMouseButtonUp(0))
             {
+                if (IsPointerOverUIObject(Input.mousePosition)) return;
                 OnTouchEnded?.Invoke();
             }
             if (Input.GetMouseButton(0))
             {
+                if (IsPointerOverUIObject(Input.mousePosition)) return;
                 var position = _mainCam.ScreenToWorldPoint(Input.mousePosition);
                 OnTouch?.Invoke(position);
             }
@@ -44,8 +47,6 @@ namespace Thirtwo
             if (Input.touchCount > 0)
             {
                 var touch = Input.GetTouch(0);
-
-                if (_eventSystem.IsPointerOverGameObject(touch.fingerId)) return;
 
                 if (IsPointerOverUIObject(touch.position)) return;
 
@@ -65,14 +66,13 @@ namespace Thirtwo
             }
 #endif
         }
-
         private bool IsPointerOverUIObject(Vector2 inputPos)
         {
-            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-            eventDataCurrentPosition.position = new Vector2(inputPos.x, inputPos.y);
-            List<RaycastResult> results = new List<RaycastResult>();
-            _eventSystem.RaycastAll(eventDataCurrentPosition, results);
-            return results.Count > 0;
+
+            _pointerEventData.position = new Vector2(inputPos.x, inputPos.y);
+            _raycastResults.Clear();
+            _eventSystem.RaycastAll(_pointerEventData, _raycastResults);
+            return _raycastResults.Count > 0;
         }
 
     }

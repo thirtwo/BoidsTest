@@ -34,7 +34,13 @@ namespace Thirtwo.Boids.Data
         [field: Range(1f, 100f)][field: SerializeField] public float  DriveFactor { get; private set; } = 10f;
         [field: Range(1f, 100f)][field: SerializeField] public float MaxSpeed { get; private set; } = 5f;
 
-        public float SquareMaxSpeed => MaxSpeed * MaxSpeed;
+        private float _squareMaxSpeed;
+        public float SquareMaxSpeed => _squareMaxSpeed;
+
+        private void Awake()
+        {
+            _squareMaxSpeed = MaxSpeed * MaxSpeed;
+        }
 
         public void Register(DependencyContainer container)
         {

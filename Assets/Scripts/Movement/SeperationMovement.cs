@@ -15,12 +15,12 @@ namespace Thirtwo.Boids.Movement
 
             Vector2 seperationMove = Vector2.zero;
             int avoidanceCount = 0;
-            foreach (Transform otherBoid in boidTransforms)
+            for (int i = 0; i < boidTransforms.Count; i++)
             {
-                if (Vector2.SqrMagnitude(otherBoid.position - boid.transform.position) < simulationData.SquareAvoidanceRadius)
+                if (Vector2.SqrMagnitude(boidTransforms[i].position - boid.transform.position) < simulationData.SquareAvoidanceRadius)
                 {
                     avoidanceCount++;
-                    seperationMove += (Vector2)(boid.transform.position - otherBoid.position);
+                    seperationMove += (Vector2)(boid.transform.position - boidTransforms[i].position);
                 }
             }
             if (avoidanceCount > 0)

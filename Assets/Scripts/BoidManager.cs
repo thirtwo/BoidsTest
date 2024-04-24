@@ -62,9 +62,9 @@ namespace Thirtwo.Boids
 
         private void MoveBoidsWithStrategy()
         {
-            foreach (Boid boid in boids)
+            for (int i = 0; i < boids.Count; i++)
             {
-                boid.SetMovementStrategy();
+                boids[i].SetMovementStrategy();
             }
         }
 

@@ -15,9 +15,9 @@ namespace Thirtwo.Boids.Movement
                 return boid.transform.up;
 
             Vector2 alignmentMove = Vector2.zero;
-            foreach (Transform otherBoid in boidTransforms)
+            for (int i = 0; i < boidTransforms.Count; i++)
             {
-                alignmentMove += (Vector2)otherBoid.transform.up;
+                alignmentMove += (Vector2)boidTransforms[i].transform.up;
             }
 
             return alignmentMove * simulationData.AlignmentEffect;
