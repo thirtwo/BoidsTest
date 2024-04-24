@@ -23,7 +23,7 @@ namespace Thirtwo.Boids
         }
         private void Move(Vector2 velocity)
         {
-            transform.up = Vector3.Lerp(transform.up, velocity.normalized, _lerpTime);
+            transform.up = velocity;
             transform.position += (Vector3)(velocity * Time.deltaTime);
         }
 
